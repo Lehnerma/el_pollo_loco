@@ -1,9 +1,8 @@
 class World {
-  character = new Character();
-  enemies = [new Chicken(), new Chicken()];
-
+  character = new Shinobi();
   ctx;
   canvas;
+  frameCount = 0;
 
   constructor(canvas) {
     this.canvas = canvas;
@@ -14,10 +13,14 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.widht, this.character.height);
-    this.enemies.forEach(enemy=>{
-        this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.widht, enemy.height);
-    })
+    // --- ANIMS-UPDATE ---
+    this.frameCount++;
+    if (this.frameCount % 6 === 0) { // Alle 6 Frames das Bild wechseln
+        this.character.updateAnimation(); 
+    }
+
+    // --- RENDER ---
+    this.character.draw(this.ctx);
 
     requestAnimationFrame(() => this.draw());
   }
