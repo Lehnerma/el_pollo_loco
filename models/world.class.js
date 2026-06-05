@@ -3,7 +3,7 @@ class World {
   enemies = [new Chicken(), new Chicken()];
   cloud = [new Cloud()];
 
-  backgroundObject = [new BackgroundObject("assets/img/5_background/layers/1_first_layer/1.png")];
+  backgroundObject = [new BackgroundObject("assets/img/5_background/layers/1_first_layer/1.png", 0, 80)];
 
   ctx;
   canvas;
@@ -15,22 +15,25 @@ class World {
   }
 
   draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // reset the canvas. 
 
     this.addToMap(this.character);
+    this.addObjectsToMap(this.cloud);
+    this.addObjectsToMap(this.enemies);
+    this.addObjectsToMap(this.backgroundObject);
 
-    this.cloud.forEach((cloud) => {
-      this.addToMap(cloud);
-    });
-
-    this.enemies.forEach((enemy) => {
-      this.addToMap(enemy);
-    });
-
-    requestAnimationFrame(() => this.draw());
+    requestAnimationFrame(() => {
+      this.draw();
+    }); // wiederholt die draw function immer wieder abgestimmt auf die grafikkarte
   }
 
   addToMap(mo) {
     this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+  }
+
+  addObjectsToMap(objects) {
+    objects.forEach((o) => {
+      this.addToMap(o);
+    });
   }
 }
