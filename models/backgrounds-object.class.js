@@ -1,6 +1,6 @@
 class BackgroundObject extends MoveableObject {
   width = 720;
-  height = 400;
+  height = 480;
 
   constructor(imgPath, x) {
     super().loadImg(imgPath);
@@ -8,3 +8,4 @@ class BackgroundObject extends MoveableObject {
     this.y = 480 - this.height;
   }
 }
+
