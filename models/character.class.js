@@ -2,8 +2,6 @@ class Character extends MoveableObject {
 
   constructor() {
     super().loadImg("assets/img/2_character_pepe/1_idle/idle/I-1.png");
-    this.height = 220;
-    this.y = 220;
   }
 
   jump() {}
