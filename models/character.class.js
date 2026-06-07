@@ -1,9 +1,10 @@
 class Character extends MoveableObject {
   y = 180;
   height = 250;
-  world;
+
   keyboard;
-  
+  world;
+
   IDLE = [
     "assets/img/2_character_pepe/1_idle/idle/I-1.png",
     "assets/img/2_character_pepe/1_idle/idle/I-2.png",
@@ -22,15 +23,21 @@ class Character extends MoveableObject {
   constructor() {
     super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.WALK);
-    this.animate(this.WALK);
+    this.animateWalking();
   }
 
   animate(arr) {
+    let i = this.currentImage % arr.length;
+    let path = arr[i];
+    this.img = this.imgCache[path];
+    this.currentImage++;
+  }
+
+  animateWalking() {
     setInterval(() => {
-      let i = this.currentImage % arr.length;
-      let path = arr[i];
-      this.img = this.imgCache[path];
-      this.currentImage++;
+      if (this.keyboard.RIGHT) {
+        this.animate(this.WALK);
+      }
     }, 200);
   }
 }
