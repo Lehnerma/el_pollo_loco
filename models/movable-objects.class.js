@@ -3,7 +3,7 @@ class MoveableObject {
   y = 280;
   height = 150;
   width = 100;
-
+  speed = 0.15;
   img;
   imgCache = {};
   currentImage = 0;
@@ -12,25 +12,27 @@ class MoveableObject {
     this.img = new Image();
     this.img.src = path;
   }
-/**
- * 
- * @param {Array} arr - ['imgs/img1','imgs/img2','imgs/img3',..]
- */
-  loadImages(arr){
-    arr.forEach((path)=>{
-      let img = new Image;
+  /**
+   *
+   * @param {Array} arr - ['imgs/img1','imgs/img2','imgs/img3',..]
+   */
+  loadImages(arr) {
+    arr.forEach((path) => {
+      let img = new Image();
       img.src = path;
-      this.imgCache[path] = img
-    })
+      this.imgCache[path] = img;
+    });
   }
 
   moveRight() {
-    console.log("move right");
+    setInterval(() => {
+      this.x += this.speed;
+    }, 1000 / 60);
   }
 
-  moveLeft(px) {
-        setInterval(() => {
-      this.x -= px;
-    }, 1000/60);
+  moveLeft() {
+    setInterval(() => {
+      this.x -= this.speed;
+    }, 1000 / 60);
   }
 }
