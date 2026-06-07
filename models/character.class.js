@@ -1,7 +1,9 @@
 class Character extends MoveableObject {
-    y = 180;
+  y = 180;
   height = 250;
-
+  world;
+  keyboard;
+  
   IDLE = [
     "assets/img/2_character_pepe/1_idle/idle/I-1.png",
     "assets/img/2_character_pepe/1_idle/idle/I-2.png",
