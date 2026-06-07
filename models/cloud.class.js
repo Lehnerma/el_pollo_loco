@@ -5,7 +5,7 @@ class Cloud extends MoveableObject {
   height = 200;
 
   constructor(imgPath) {
-    super().loadImg(imgPath);
+    super().loadImage(imgPath);
     this.animationLeft()
   }
 
