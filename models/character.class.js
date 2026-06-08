@@ -42,19 +42,17 @@ class Character extends MoveableObject {
   // die funciton mit der der character links rechts laufen kann
   moveX() {
     setInterval(() => {
-      if (this.world.keyboard.RIGHT) {
+      if (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x) {
         this.x += this.speed;
-
         this.walkingAnimation(this.WALK);
         this.otherDirection = false;
       }
-      if (this.world.keyboard.LEFT) {
+      if (this.world.keyboard.LEFT && this.x >= - 720) {
         this.x -= this.speed;
-
         this.walkingAnimation(this.WALK);
         this.otherDirection = true;
       }
-      this.world.camera_x = -this.x;
+      this.world.camera_x = -this.x + 100;
     }, 1000 / 60); //60 fps
   }
 }

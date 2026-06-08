@@ -1,9 +1,6 @@
 class World {
   character = new Character();
-  enemies = level1.enemies;
-  cloud = level1.clouds;
-  backgroundObject = level1.backgroundObjects;
-
+  level = level1;
   ctx;
   canvas;
   keyboard;
@@ -24,14 +21,14 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // reset the canvas.
 
-    this.ctx.translate(this.camera_x, 0)
+    this.ctx.translate(this.camera_x, 0);
 
-    this.addObjectsToMap(this.backgroundObject);
+    this.addObjectsToMap(this.level.backgroundObjects);
     this.addToMap(this.character);
-    this.addObjectsToMap(this.cloud);
-    this.addObjectsToMap(this.enemies);
+    this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.level.enemies);
 
-    this.ctx.translate(-this.camera_x, 0)
+    this.ctx.translate(-this.camera_x, 0);
 
     requestAnimationFrame(() => {
       this.draw();
@@ -41,9 +38,9 @@ class World {
   addToMap(mo) {
     if (mo.otherDirection) {
       this.ctx.save(); // speichert den ctx damit wir wieder auf den ursprunglichen zuruckgreifen konnen.
-      this.ctx.translate(mo.width,0); // beim drehen wird die width des bildes abgezogen das es sich auf den stand dreht.
-      this.ctx.scale(-1, 1); // die eigentliche spiegelung. 
-      mo.x = mo.x * -1; 
+      this.ctx.translate(mo.width, 0); // beim drehen wird die width des bildes abgezogen das es sich auf den stand dreht.
+      this.ctx.scale(-1, 1); // die eigentliche spiegelung.
+      mo.x = mo.x * -1;
     } // spiegelt das Bild das eingefugt wird.
 
     this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
