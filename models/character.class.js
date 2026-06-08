@@ -24,6 +24,7 @@ class Character extends MoveableObject {
   constructor() {
     super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.WALK);
+    this.loadImages(this.IDLE);
     this.moveX();
   }
 
@@ -31,30 +32,25 @@ class Character extends MoveableObject {
   walkingAnimation() {
     setInterval(() => {
       if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
-        let i = this.currentImage % this.WALK.length;
-        let path = this.WALK[i];
-        this.img = this.imgCache[path];
-        this.currentImage++;
+        this.animation(this.WALK);
       }
-    }, 50);
+    }, 100);
   }
 
   // die funciton mit der der character links rechts laufen kann
   moveX() {
+    this.walkingAnimation(this.WALK);
     setInterval(() => {
-      if (this.world.keyboard.RIGHT) {
+      if (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x) {
         this.x += this.speed;
-
-        this.walkingAnimation(this.WALK);
         this.otherDirection = false;
       }
-      if (this.world.keyboard.LEFT) {
+      if (this.world.keyboard.LEFT && this.x >= -720) {
         this.x -= this.speed;
-
-        this.walkingAnimation(this.WALK);
         this.otherDirection = true;
       }
-      this.world.camera_x = -this.x;
-    }, 1000 / 60); //60 fps
+      this.world.camera_x = -this.x + 100;
+    }, 1000 / 40); //60 fps
   }
+
 }
