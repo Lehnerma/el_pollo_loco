@@ -1,28 +1,13 @@
 class World {
   character = new Character();
-  enemies = [
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-  ];
-
-  cloud = [
-    new Cloud("assets/img/5_background/layers/4_clouds/1.png"),
-    new Cloud("assets/img/5_background/layers/4_clouds/2.png"),
-  ];
-
-  backgroundObject = [
-    new BackgroundObject("assets/img/5_background/layers/air.png", 0),
-    new BackgroundObject("assets/img/5_background/layers/3_third_layer/1.png", 0),
-    new BackgroundObject("assets/img/5_background/layers/3_third_layer/1.png", 0),
-    new BackgroundObject("assets/img/5_background/layers/2_second_layer/1.png", 0),
-    new BackgroundObject("assets/img/5_background/layers/1_first_layer/1.png", 0),
-  ];
+  enemies = level1.enemies;
+  cloud = level1.clouds;
+  backgroundObject = level1.backgroundObjects;
 
   ctx;
   canvas;
   keyboard;
+  camera_x;
 
   constructor(canvas, keyboard) {
     this.canvas = canvas;
@@ -30,24 +15,23 @@ class World {
     this.draw();
     this.keyboard = keyboard;
     this.setWorld();
-    this.setKeyboard();
   }
 
-  setWorld(){
+  setWorld() {
     this.character.world = this;
-  }
-
-  setKeyboard(){
-    this.character.keyboard = this.keyboard
   }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // reset the canvas.
 
+    this.ctx.translate(this.camera_x, 0)
+
     this.addObjectsToMap(this.backgroundObject);
     this.addToMap(this.character);
     this.addObjectsToMap(this.cloud);
     this.addObjectsToMap(this.enemies);
+
+    this.ctx.translate(-this.camera_x, 0)
 
     requestAnimationFrame(() => {
       this.draw();
@@ -55,7 +39,19 @@ class World {
   }
 
   addToMap(mo) {
+    if (mo.otherDirection) {
+      this.ctx.save(); // speichert den ctx damit wir wieder auf den ursprunglichen zuruckgreifen konnen.
+      this.ctx.translate(mo.width,0); // beim drehen wird die width des bildes abgezogen das es sich auf den stand dreht.
+      this.ctx.scale(-1, 1); // die eigentliche spiegelung. 
+      mo.x = mo.x * -1; 
+    } // spiegelt das Bild das eingefugt wird.
+
     this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+
+    if (mo.otherDirection) {
+      this.ctx.restore(); // wir stellen den ctx wieder her den wir vorher gespeichert haben.
+      mo.x = mo.x * -1;
+    }
   }
 
   addObjectsToMap(objects) {
