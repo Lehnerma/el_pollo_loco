@@ -24,35 +24,41 @@ class Character extends MoveableObject {
   constructor() {
     super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.WALK);
+    this.loadImages(this.IDLE);
     this.moveX();
+    this.stay();
   }
 
   // rein nur die animation fur das gehen des character.
   walkingAnimation() {
     setInterval(() => {
       if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
-        let i = this.currentImage % this.WALK.length;
-        let path = this.WALK[i];
-        this.img = this.imgCache[path];
-        this.currentImage++;
+        this.playAnimation(this.WALK);
       }
-    }, 50);
+    }, 60);
   }
 
   // die funciton mit der der character links rechts laufen kann
   moveX() {
+    this.walkingAnimation(this.WALK);
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x) {
         this.x += this.speed;
-        this.walkingAnimation(this.WALK);
+
         this.otherDirection = false;
       }
-      if (this.world.keyboard.LEFT && this.x >= - 720) {
+      if (this.world.keyboard.LEFT && this.x >= -720) {
         this.x -= this.speed;
-        this.walkingAnimation(this.WALK);
+
         this.otherDirection = true;
       }
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60); //60 fps
+  }
+
+  stay() {
+    setInterval(() => {
+      this.playAnimation(this.IDLE);
+    }, 150);
   }
 }
