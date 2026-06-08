@@ -37,10 +37,16 @@ class MoveableObject {
     }, 1000 / 60);
   }
 
-  playAnimation(images) {
+  animation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imgCache[path];
     this.currentImage++;
+  }
+
+  playAnimation(images, fps = 100) {
+    setInterval(() => {
+        this.animation(images);
+    }, fps);
   }
 }

@@ -33,32 +33,28 @@ class Character extends MoveableObject {
   walkingAnimation() {
     setInterval(() => {
       if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
-        this.playAnimation(this.WALK);
+        this.animation(this.WALK);
       }
-    }, 60);
+    }, 80);
   }
 
   // die funciton mit der der character links rechts laufen kann
   moveX() {
-    this.walkingAnimation(this.WALK);
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x) {
         this.x += this.speed;
-
         this.otherDirection = false;
       }
       if (this.world.keyboard.LEFT && this.x >= -720) {
         this.x -= this.speed;
-
         this.otherDirection = true;
       }
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60); //60 fps
+    this.walkingAnimation(this.WALK);
   }
 
   stay() {
-    setInterval(() => {
-      this.playAnimation(this.IDLE);
-    }, 150);
+    this.playAnimation(this.IDLE);
   }
 }
