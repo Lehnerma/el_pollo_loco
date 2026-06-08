@@ -26,7 +26,6 @@ class Character extends MoveableObject {
     this.loadImages(this.WALK);
     this.loadImages(this.IDLE);
     this.moveX();
-    this.stay();
   }
 
   // rein nur die animation fur das gehen des character.
@@ -35,11 +34,12 @@ class Character extends MoveableObject {
       if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
         this.animation(this.WALK);
       }
-    }, 80);
+    }, 100);
   }
 
   // die funciton mit der der character links rechts laufen kann
   moveX() {
+    this.walkingAnimation(this.WALK);
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x) {
         this.x += this.speed;
@@ -50,11 +50,7 @@ class Character extends MoveableObject {
         this.otherDirection = true;
       }
       this.world.camera_x = -this.x + 100;
-    }, 1000 / 60); //60 fps
-    this.walkingAnimation(this.WALK);
+    }, 1000 / 40); //60 fps
   }
 
-  stay() {
-    this.playAnimation(this.IDLE);
-  }
 }
