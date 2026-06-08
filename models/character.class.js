@@ -1,8 +1,9 @@
 class Character extends MoveableObject {
   y = 180;
+  x = 100;
   height = 250;
 
-  keyboard;
+  speed = 10;
   world;
 
   IDLE = [
@@ -23,21 +24,37 @@ class Character extends MoveableObject {
   constructor() {
     super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.WALK);
-    this.animateWalking();
+    this.moveX();
   }
 
-  animate(arr) {
-    let i = this.currentImage % arr.length;
-    let path = arr[i];
-    this.img = this.imgCache[path];
-    this.currentImage++;
-  }
-
-  animateWalking() {
+  // rein nur die animation fur das gehen des character.
+  walkingAnimation() {
     setInterval(() => {
-      if (this.keyboard.RIGHT) {
-        this.animate(this.WALK);
+      if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
+        let i = this.currentImage % this.WALK.length;
+        let path = this.WALK[i];
+        this.img = this.imgCache[path];
+        this.currentImage++;
       }
-    }, 200);
+    }, 50);
+  }
+
+  // die funciton mit der der character links rechts laufen kann
+  moveX() {
+    setInterval(() => {
+      if (this.world.keyboard.RIGHT) {
+        this.x += this.speed;
+
+        this.walkingAnimation(this.WALK);
+        this.otherDirection = false;
+      }
+      if (this.world.keyboard.LEFT) {
+        this.x -= this.speed;
+
+        this.walkingAnimation(this.WALK);
+        this.otherDirection = true;
+      }
+      this.world.camera_x = -this.x;
+    }, 1000 / 60); //60 fps
   }
 }
