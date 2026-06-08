@@ -4,6 +4,8 @@ class MoveableObject {
   height = 150;
   width = 100;
   speed = 0.15;
+  speedY = 0;
+  acceleration = 2;
   img;
   imgCache = {};
   currentImage = 0;
@@ -46,7 +48,20 @@ class MoveableObject {
 
   playAnimation(images, fps = 100) {
     setInterval(() => {
-        this.animation(images);
+      this.animation(images);
     }, fps);
+  }
+
+  applyGravity() {
+    setInterval(() => {
+      if (this.isAboveGround() || this.speedY > 0) {
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+      }
+    }, 1000 / 25); // 1sek durch 25 - also 0,25 sek
+  }
+
+  isAboveGround() {
+    return this.y <= 180;
   }
 }

@@ -1,5 +1,5 @@
 class Character extends MoveableObject {
-  y = 180;
+  y = 10;
   x = 100;
   height = 250;
 
@@ -19,12 +19,26 @@ class Character extends MoveableObject {
     "assets/img/2_character_pepe/1_idle/idle/I-10.png",
   ];
 
+  JUMPING = [
+    "assets/img/2_character_pepe/3_jump/J-31.png",
+    "assets/img/2_character_pepe/3_jump/J-32.png",
+    "assets/img/2_character_pepe/3_jump/J-33.png",
+    "assets/img/2_character_pepe/3_jump/J-34.png",
+    "assets/img/2_character_pepe/3_jump/J-35.png",
+    "assets/img/2_character_pepe/3_jump/J-36.png",
+    "assets/img/2_character_pepe/3_jump/J-37.png",
+    "assets/img/2_character_pepe/3_jump/J-38.png",
+    "assets/img/2_character_pepe/3_jump/J-39.png",
+  ];
+
   WALK = ["assets/img/2_character_pepe/2_walk/W-21.png", "assets/img/2_character_pepe/2_walk/W-22.png", "assets/img/2_character_pepe/2_walk/W-23.png", "assets/img/2_character_pepe/2_walk/W-24.png", "assets/img/2_character_pepe/2_walk/W-25.png", "assets/img/2_character_pepe/2_walk/W-26.png"];
 
   constructor() {
     super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.WALK);
     this.loadImages(this.IDLE);
+    this.loadImages(this.JUMPING);
+    this.applyGravity();
     this.moveX();
   }
 
@@ -40,6 +54,7 @@ class Character extends MoveableObject {
   // die funciton mit der der character links rechts laufen kann
   moveX() {
     this.walkingAnimation(this.WALK);
+    this.jump();
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x) {
         this.x += this.speed;
@@ -49,8 +64,31 @@ class Character extends MoveableObject {
         this.x -= this.speed;
         this.otherDirection = true;
       }
-      this.world.camera_x = -this.x + 100;
-    }, 1000 / 40); //60 fps
+
+      if (this.world.keyboard.UP) {
+        if (!this.isAboveGround()) { 
+          this.speedY = 20
+        };
+      }
+
+      this.world.camera_x = -this.x + 100; // distanz for the camera
+    }, 1000 / 60); //60 fps
+  }
+  stay() {
+    setInterval(() => {
+      if (this.isAboveGround) {
+        this.animation(this.IDLE);
+      }
+    }, 100);
   }
 
+  jump() {
+    setInterval(() => {
+      if (this.isAboveGround()) {
+        this.animation(this.JUMPING);
+      } else {
+        this.img.src = this.JUMPING[8];
+      }
+    }, 1000/25);
+  }
 }
