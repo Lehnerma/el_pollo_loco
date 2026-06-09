@@ -1,6 +1,6 @@
 class MoveableObject {
   x = 120;
-  y = 280;
+  y;
   height = 150;
   width = 100;
   speed = 0.15;
@@ -28,15 +28,13 @@ class MoveableObject {
   }
 
   moveRight() {
-    setInterval(() => {
-      this.x += this.speed;
-    }, 1000 / 60);
+    this.x += this.speed;
+    this.otherDirection = false;
   }
 
   moveLeft() {
-    setInterval(() => {
-      this.x -= this.speed;
-    }, 1000 / 60);
+    this.x -= this.speed;
+    this.otherDirection = true;
   }
 
   animation(images) {
@@ -62,6 +60,10 @@ class MoveableObject {
   }
 
   isAboveGround() {
-    return this.y <= 180;
+    return this.y <= 175;
+  }
+
+  jump() {
+    this.speedY = 25;
   }
 }
