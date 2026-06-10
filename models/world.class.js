@@ -37,18 +37,30 @@ class World {
 
   addToMap(mo) {
     if (mo.otherDirection) {
-      this.ctx.save(); // speichert den ctx damit wir wieder auf den ursprunglichen zuruckgreifen konnen.
-      this.ctx.translate(mo.width, 0); // beim drehen wird die width des bildes abgezogen das es sich auf den stand dreht.
-      this.ctx.scale(-1, 1); // die eigentliche spiegelung.
-      mo.x = mo.x * -1;
-    } // spiegelt das Bild das eingefugt wird.
+      this.flipImage(mo);
+    }
 
-    this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+    mo.draw(this.ctx);
+    //red rectangel for the collision
+    mo.drawBorderCollision(this.ctx);
 
     if (mo.otherDirection) {
-      this.ctx.restore(); // wir stellen den ctx wieder her den wir vorher gespeichert haben.
-      mo.x = mo.x * -1;
+      this.flipImageBack(mo);
     }
+  }
+
+  // mirrors the image to the other direction witch the bool value from this.otherDirection
+  flipImage(mo) {
+    this.ctx.save(); // speichert den ctx damit wir wieder auf den ursprunglichen zuruckgreifen konnen.
+    this.ctx.translate(mo.width, 0); // beim drehen wird die width des bildes abgezogen das es sich auf den stand dreht.
+    this.ctx.scale(-1, 1); // die eigentliche spiegelung.
+    mo.x = mo.x * -1;
+  }
+
+  // set the image to the normal direction back.
+  flipImageBack(mo) {
+    this.ctx.restore(); // wir stellen den ctx wieder her den wir vorher gespeichert haben.
+    mo.x = mo.x * -1;
   }
 
   addObjectsToMap(objects) {
