@@ -44,6 +44,12 @@ class World {
     } // spiegelt das Bild das eingefugt wird.
 
     this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+    //red rectangel for the collision
+    this.ctx.beginPath();
+    this.ctx.lineWidth = "2";
+    this.ctx.strokeStyle = "red";
+    this.ctx.rect(mo.x, mo.y, mo.width, mo.height);
+    this.ctx.stroke();
 
     if (mo.otherDirection) {
       this.ctx.restore(); // wir stellen den ctx wieder her den wir vorher gespeichert haben.

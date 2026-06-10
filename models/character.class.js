@@ -33,6 +33,8 @@ class Character extends MoveableObject {
 
   WALK = ["assets/img/2_character_pepe/2_walk/W-21.png", "assets/img/2_character_pepe/2_walk/W-22.png", "assets/img/2_character_pepe/2_walk/W-23.png", "assets/img/2_character_pepe/2_walk/W-24.png", "assets/img/2_character_pepe/2_walk/W-25.png", "assets/img/2_character_pepe/2_walk/W-26.png"];
 
+  WALKING_SOUND = new Audio("assets/audio/step.wav");
+
   constructor() {
     super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.WALK);
@@ -45,7 +47,7 @@ class Character extends MoveableObject {
   // rein nur die animation fur das gehen des character.
   walkingAnimation() {
     setInterval(() => {
-      if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
+      if ((this.world.keyboard.LEFT && this.x >= -720) || (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x)) {
         this.animation(this.WALK);
       }
     }, 100);
@@ -53,40 +55,31 @@ class Character extends MoveableObject {
 
   // die funciton mit der der character links rechts laufen kann
   moveCharacter() {
-    this.walkingAnimation(this.WALK);
+    this.jumpingAnimation();
+    this.walkingAnimation();
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x) {
         this.moveRight();
+        this.otherDirection = false;
       }
-      if (this.world.keyboard.LEFT && this.x >= -720) {
+      if (this.world.keyboard.LEFT && this.x >= -1040) {
         this.moveLeft();
+        this.otherDirection = true;
       }
 
-      if (this.world.keyboard.UP) {
-        if (!this.isAboveGround()) {
-          this.jump();
-        }
+      if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAboveGround()) {
+        this.jump();
       }
 
       this.world.camera_x = -this.x + 100; // distanz for the camera
     }, 1000 / 60); //60 fps
   }
 
-  // stay() {
-  //   setInterval(() => {
-  //     if (this.isAboveGround) {
-  //       this.animation(this.IDLE);
-  //     }
-  //   }, 100);
-  // }
-
-  // jump() {
-  //   setInterval(() => {
-  //     if (this.isAboveGround()) {
-  //       this.animation(this.JUMPING);
-  //     } else {
-  //       this.img.src = this.JUMPING[8];
-  //     }
-  //   }, 1000/25);
-  // }
+  jumpingAnimation() {
+    setInterval(() => {
+      if (this.isAboveGround()) {
+        this.animation(this.JUMPING);
+      }
+    }, 100);
+  }
 }
