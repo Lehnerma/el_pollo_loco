@@ -9,9 +9,20 @@ class World {
   constructor(canvas, keyboard) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
-    this.draw();
     this.keyboard = keyboard;
+    this.draw();
     this.setWorld();
+    this.checkCollision()
+  }
+
+  checkCollision(){
+    setInterval(() => {
+      this.level.enemies.forEach((enemy)=>{
+        if(this.character.isColliding(enemy)){
+          console.log('Colliding with: ', enemy);
+        }
+      })
+    }, 1000);
   }
 
   setWorld() {

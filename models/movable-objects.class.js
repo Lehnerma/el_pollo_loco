@@ -15,9 +15,8 @@ class MoveableObject {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
-  drawBorderCollision(ctx){
-    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss)
-    ctx.beginPath();
+  drawBorderCollision(ctx) {
+    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) ctx.beginPath();
     ctx.lineWidth = "2";
     ctx.strokeStyle = "red";
     ctx.rect(this.x, this.y, this.width, this.height);
@@ -76,5 +75,10 @@ class MoveableObject {
 
   jump() {
     this.speedY = 25;
+  }
+
+  // isColliding
+  isColliding(mo) {
+    return this.x + this.width > mo.x && this.y + this.height > mo.y && this.x < mo.x && this.y < mo.y + mo.height;
   }
 }
