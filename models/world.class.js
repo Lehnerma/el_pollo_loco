@@ -12,16 +12,16 @@ class World {
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
-    this.checkCollision()
+    this.checkCollision();
   }
 
-  checkCollision(){
+  checkCollision() {
     setInterval(() => {
-      this.level.enemies.forEach((enemy)=>{
-        if(this.character.isColliding(enemy)){
-          console.log('Colliding with: ', enemy);
+      this.level.enemies.forEach((enemy) => {
+        if (this.character.isColliding(enemy)) {
+          console.log("Colliding with: ", enemy);
         }
-      })
+      });
     }, 1000);
   }
 
@@ -50,14 +50,18 @@ class World {
     if (mo.otherDirection) {
       this.flipImage(mo);
     }
-
     mo.draw(this.ctx);
     //red rectangel for the collision
     mo.drawBorderCollision(this.ctx);
-
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
+  }
+
+  addObjectsToMap(objects) {
+    objects.forEach((o) => {
+      this.addToMap(o);
+    });
   }
 
   // mirrors the image to the other direction witch the bool value from this.otherDirection
@@ -72,11 +76,5 @@ class World {
   flipImageBack(mo) {
     this.ctx.restore(); // wir stellen den ctx wieder her den wir vorher gespeichert haben.
     mo.x = mo.x * -1;
-  }
-
-  addObjectsToMap(objects) {
-    objects.forEach((o) => {
-      this.addToMap(o);
-    });
   }
 }
