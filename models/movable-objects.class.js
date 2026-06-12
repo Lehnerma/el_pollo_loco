@@ -78,11 +78,14 @@ class MoveableObject {
     this.speedY = 25;
   }
 
-  // isColliding
+  /**
+   *  Checks the collision points for the character and a Moveableobject - these could be a Chicken or a other class. 
+   *  x + width = checks the upper left collision point -> compare with the y of the movableobject
+   * y + height = checks the bottom left collion point -> compare with the y of the movableobject
+   * @param {MoveableObject} mo 
+   * @returns Bool for damage controll
+   */
   isColliding(mo) {
-    return
-    this.x + this.width > mo.x && // berechnet wie lange die x linie ist und vergleicht sie mit dem mo.x ob diese übeschritten wird. 
-     this.y + this.height > mo.y && // berechnt wie lange die y linie ist und vergleichen sie mit dem mo.y ob diese überschritten wird. = also wir vergleichen die rechteseite des characters mit der linken seite des gegners.
-     this.x < mo.x && this.y < mo.y + mo.height;
+    return this.x + this.width > mo.x && this.y + this.height > mo.y && this.x < mo.x && this.y < mo.y + mo.height;
   }
 }

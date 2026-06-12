@@ -64,7 +64,6 @@ class World {
       this.flipImageBack(mo);
     }
   }
-
   addObjectsToMap(objects) {
     objects.forEach((o) => {
       this.addToMap(o);
