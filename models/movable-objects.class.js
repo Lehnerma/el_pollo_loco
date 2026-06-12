@@ -78,16 +78,28 @@ class MoveableObject {
     this.speedY = 25;
   }
 
+  //colliding and damage
   /**
-   *  Checks the collision points for the character and a Moveableobject - these could be a Chicken or a other class. 
+   *  Checks the collision points for the character and a Moveableobject - these could be a Chicken or a other class.
    * x + width > mo.x = checks the upper right collision corner -> checks the right side of the character.
    * y + height > mo.y = checks the bottom right collion corner -> checks the right side of the character.
    * x < mo.x + mo.width = checks the upper left collion corner -> checks the left side of the character
    * y < mo.y +mo.height = checks the bottom left collion corner ->checks the left side of the character
-   * @param {MoveableObject} mo 
+   * @param {MoveableObject} mo
    * @returns Bool for damage controll
    */
   isColliding(mo) {
     return this.x + this.width > mo.x && this.y + this.height > mo.y && this.x < mo.x && this.y < mo.y + mo.height;
+  }
+
+  hit() {
+    this.health -= 5;
+    if (this.health < 0) {
+      this.health = 0;
+    }
+  }
+
+  isDead() {
+    return this.health < 0;
   }
 }

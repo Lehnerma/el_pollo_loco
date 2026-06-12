@@ -55,8 +55,9 @@ class Character extends MoveableObject {
   constructor() {
     super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.WALK);
-    this.loadImages(this.IDLE);
     this.loadImages(this.JUMPING);
+    this.loadImages(this.DEAD);
+    this.loadImages(this.HURT);
     this.applyGravity();
     this.moveCharacter();
   }
@@ -79,6 +80,7 @@ class Character extends MoveableObject {
         this.moveRight();
         this.otherDirection = false;
       }
+      
       if (this.world.keyboard.LEFT && this.x >= -1040) {
         this.moveLeft();
         this.otherDirection = true;
@@ -99,4 +101,5 @@ class Character extends MoveableObject {
       }
     }, 100);
   }
+
 }
