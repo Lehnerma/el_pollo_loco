@@ -80,8 +80,10 @@ class MoveableObject {
 
   /**
    *  Checks the collision points for the character and a Moveableobject - these could be a Chicken or a other class. 
-   *  x + width = checks the upper left collision point -> compare with the y of the movableobject
-   * y + height = checks the bottom left collion point -> compare with the y of the movableobject
+   * x + width > mo.x = checks the upper right collision corner -> checks the right side of the character.
+   * y + height > mo.y = checks the bottom right collion corner -> checks the right side of the character.
+   * x < mo.x + mo.width = checks the upper left collion corner -> checks the left side of the character
+   * y < mo.y +mo.height = checks the bottom left collion corner ->checks the left side of the character
    * @param {MoveableObject} mo 
    * @returns Bool for damage controll
    */
