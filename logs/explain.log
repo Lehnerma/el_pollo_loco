@@ -18,3 +18,45 @@
 
 **Empfehlung:** Mit Option 1 beginnen → dann Option 2 als saubererer OOP-Ansatz.
 
+
+## 2026-06-12 — Funktionen aufteilen für bessere Lesbarkeit
+
+### Bug: `isColliding()` — `movable-objects.class.js:92`
+AABB-Kollision prüft `this.x < mo.x` statt `this.x < mo.x + mo.width` — rechte Kante fehlt.
+
+```javascript
+// Vorher (buggy):
+return this.x + this.width > mo.x && this.y + this.height > mo.y && this.x < mo.x && this.y < mo.y + mo.height;
+
+// Nachher:
+const horizontalOverlap = this.x + this.width > mo.x && this.x < mo.x + mo.width;
+const verticalOverlap   = this.y + this.height > mo.y && this.y < mo.y + mo.height;
+return horizontalOverlap && verticalOverlap;
+```
+
+### `moveCharacter()` — `character.class.js:75–95`
+Mischt Input, Animation und Camera in einer Funktion. Aufteilung:
+- `handleHorizontalMovement()` — Links/Rechts-Logik
+- `handleJump()` — Sprung-Bedingung
+- `updateCamera()` — `camera_x` setzen
+- `startAnimations()` — Animation-Intervals starten
+
+### `draw()` — `world.class.js:34–49`
+Camera-Transformation und Rendering mischen. Extract:
+- `drawScene()` — translate wrap
+- `renderAllObjects()` — alle `addToMap`/`addObjectsToMap` Aufrufe
+
+### `setInterval` ohne Tracking — alle Klassen
+Kein `clearInterval` → Memory-Leak bei Neustart. Lösung in `MoveableObject`:
+```javascript
+startTimer(callback, interval) {
+  const id = setInterval(callback, interval);
+  this.activeIntervals.push(id);
+  return id;
+}
+cleanup() {
+  this.activeIntervals.forEach(id => clearInterval(id));
+  this.activeIntervals = [];
+}
+```
+

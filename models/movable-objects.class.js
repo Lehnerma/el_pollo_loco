@@ -89,7 +89,9 @@ class MoveableObject {
    * @returns Bool for damage controll
    */
   isColliding(mo) {
-    return this.x + this.width > mo.x && this.y + this.height > mo.y && this.x < mo.x && this.y < mo.y + mo.height;
+    const horizontalCollision = this.x + this.width > mo.x && this.x < mo.x + mo.width;
+    const verticalCollision = this.y + this.height > mo.y && this.y < mo.y + mo.height;
+    return horizontalCollision && verticalCollision;
   }
 
   hit() {
@@ -100,6 +102,6 @@ class MoveableObject {
   }
 
   isDead() {
-    return this.health < 0;
+    return this.health == 0;
   }
 }

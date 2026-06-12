@@ -59,31 +59,22 @@ class Character extends MoveableObject {
     this.loadImages(this.DEAD);
     this.loadImages(this.HURT);
     this.applyGravity();
-    this.moveCharacter();
+    this.animatCharacter();
   }
 
-  // rein nur die animation fur das gehen des character.
-  walkingAnimation() {
-    setInterval(() => {
-      if ((this.world.keyboard.LEFT && this.x >= -720) || (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x)) {
-        this.animation(this.WALK);
-      }
-    }, 100);
-  }
-
-  // die funciton mit der der character links rechts laufen kann
-  moveCharacter() {
-    this.jumpingAnimation();
-    this.walkingAnimation();
+  animatCharacter() {
+    //this.sound.pause()?
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x) {
         this.moveRight();
         this.otherDirection = false;
+        //this.sound.plaz()?
       }
-      
+
       if (this.world.keyboard.LEFT && this.x >= -1040) {
         this.moveLeft();
         this.otherDirection = true;
+        //this.sound.play()?
       }
 
       if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAboveGround()) {
@@ -92,14 +83,15 @@ class Character extends MoveableObject {
 
       this.world.camera_x = -this.x + 100; // distanz for the camera
     }, 1000 / 60); //60 fps
-  }
 
-  jumpingAnimation() {
     setInterval(() => {
-      if (this.isAboveGround()) {
+      if (this.isDead()) {
+        this.animation(this.DEAD);
+      } else if (this.isAboveGround()) {
         this.animation(this.JUMPING);
+      } else if ((this.world.keyboard.LEFT && this.x >= -720) || (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x)) {
+        this.animation(this.WALK);
       }
     }, 100);
   }
-
 }

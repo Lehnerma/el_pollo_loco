@@ -1,3 +1,4 @@
 # Format:
 # 2026-06-03T08:55:10+02:00 | issue | step1; step2; result
 2026-06-08T09:37:56+02:00 | addToMap translate mirror issue | Ursache: translate(mo.img.width,0)+scale(-1,1) spiegelt um den Canvas-Ursprung; dadurch verschiebt sich X (effektiv mo.img.width - mo.x - mo.width). Für gleiche X-Position um die Objektposition spiegeln, z.B. translate(2*mo.x+mo.width,0) vor scale(-1,1).
+2026-06-12T15:30:00+02:00 | Code refactoring analysis | MoveableObject.isColliding() hat Logic-Bug (line 92: mo.x statt mo.x+mo.width). Character.moveCharacter() mixed 3 concerns: keyboard input, animation, camera (75-95). World.draw() hat hidden dependency auf camera_x init (37). Animation/Gravity/Collision laufen in separaten setInterval ohne Cleanup/Tracking → multiple Aufrufe möglich bei mehreren Instanzen.
