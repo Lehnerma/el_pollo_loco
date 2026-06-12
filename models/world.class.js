@@ -20,9 +20,16 @@ class World {
       this.level.enemies.forEach((enemy) => {
         if (this.character.isColliding(enemy)) {
           console.log("Colliding with: ", enemy);
+          this.character.health -= 20
+          console.log('health: ', this.character.health);
+          
+          if (this.character.health <=0){
+            console.log('death vally');
+            
+          }
         }
       });
-    }, 1000);
+    }, 500);
   }
 
   setWorld() {

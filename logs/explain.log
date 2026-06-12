@@ -1,0 +1,20 @@
+## 2026-06-12 — Character image arrays auslagern / übersichtlicher gestalten
+
+**Optionen:**
+
+1. **Konstanten-Datei auslagern** (`models/character.constants.js`)
+   - Arrays als `const CHARACTER_IMAGES = { WALK: [...], IDLE: [...], ... }` in eigener Datei
+   - Datei in `index.html` vor `character.class.js` laden
+   - Einfachster Einstieg, übt das Aufteilen von Code in Dateien
+
+2. **Static class fields**
+   - `static WALK = ["..."]` statt Instanz-Felder
+   - Array existiert nur einmal auf der Klasse, nicht auf jeder Instanz
+   - Zugriff via `Character.WALK` oder `this.constructor.WALK`
+
+3. **Frame-Generator Helfer**
+   - Wiederholende Pfade (`W-21.png` … `W-26.png`) per Funktion generieren
+   - `function frames(path, prefix, start, end) { ... }`
+
+**Empfehlung:** Mit Option 1 beginnen → dann Option 2 als saubererer OOP-Ansatz.
+
