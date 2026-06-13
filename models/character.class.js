@@ -87,7 +87,10 @@ class Character extends MoveableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.animation(this.DEAD);
-      } else if (this.isAboveGround()) {
+      } else if (this.isHurt()){
+        this.animation(this.HURT);
+      }
+      else if (this.isAboveGround()) {
         this.animation(this.JUMPING);
       } else if ((this.world.keyboard.LEFT && this.x >= -720) || (this.world.keyboard.RIGHT && this.x <= this.world.level.level_end_x)) {
         this.animation(this.WALK);

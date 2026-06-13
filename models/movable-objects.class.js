@@ -11,6 +11,7 @@ class MoveableObject {
   currentImage = 0;
   otherDirection = false;
   health;
+  lastHit = 0;
 
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -98,9 +99,15 @@ class MoveableObject {
     this.health -= 5;
     if (this.health < 0) {
       this.health = 0;
+    } else {
+      this.lastHit = new Date().getTime();
     }
   }
 
+  isHurt(){
+    const timePassed = new Date() - this.lastHit; // difference in ms
+    return timePassed < 5000 // return true if teh timePassed is more than 5sek ago. 
+  }
   isDead() {
     return this.health == 0;
   }

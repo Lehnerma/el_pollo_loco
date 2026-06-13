@@ -21,7 +21,7 @@ class World {
         if (this.character.isColliding(enemy)) {
           this.character.hit();
           console.log('collision with character, health: ', this.character.health);
-          
+          // this.character.animation(this.character.HURT);
         }
       });
     }, 100);
